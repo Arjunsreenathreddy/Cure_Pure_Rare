@@ -151,46 +151,69 @@ function MapView({ loc, locId, onSelectSchool, selectedSchool, visibleCats }) {
                     const isSel = selectedSchool?.schcd === s.schcd;
                     const color = catColor(s.category);
                     const hasDilap = s.dilapidated > 0;
+                    const sRing = statusRingColor(s.building_status);
 
                     return (
-                        <CircleMarker
-                            key={`s${i}`}
-                            center={[s.lat, s.lng]}
-                            radius={r}
-                            pathOptions={{
-                                color: isSel ? '#1e293b' : 'white',
-                                weight: isSel ? 2 : 1,
-                                fillColor: color,
-                                fillOpacity: 0.9,
-                            }}
-                            eventHandlers={{
-                                click: () => onSelectSchool(s),
-                            }}
-                        >
-                            {/* Inner/outer rings if dilapidated */}
+                        <div key={`s${i}`}>
+                            {/* Inner/outer rings if dilapidated or special building status */}
+                            {/* We set interactive={false} so these rings don't block the tooltip hover events */}
                             {hasDilap && (
                                 <CircleMarker
                                     center={[s.lat, s.lng]}
                                     radius={r + 4}
                                     pathOptions={{ color: '#ef4444', weight: 2, fillOpacity: 0, dashArray: "4 2.5" }}
+                                    interactive={false}
+                                />
+                            )}
+                            {sRing && !hasDilap && (
+                                <CircleMarker
+                                    center={[s.lat, s.lng]}
+                                    radius={r + 4}
+                                    pathOptions={{ color: sRing, weight: 2, fillOpacity: 0, dashArray: "4 2.5" }}
+                                    interactive={false}
+                                />
+                            )}
+                            {hasDilap && sRing && (
+                                <CircleMarker
+                                    center={[s.lat, s.lng]}
+                                    radius={r + 8}
+                                    pathOptions={{ color: sRing, weight: 2, fillOpacity: 0, dashArray: "4 2.5" }}
+                                    interactive={false}
                                 />
                             )}
 
-                            <Tooltip direction="top" offset={[0, -r]} opacity={1}>
-                                <div style={{ fontSize: '13px', fontWeight: 'bold' }}>{s.name}</div>
-                                <div style={{ fontSize: '11px', color: '#64748b' }}>
-                                    {catLabel(s.category)} &bull; {s.enr} students
-                                </div>
-                                <div style={{ fontSize: '11px', color: '#0ea5e9', fontWeight: '600' }}>
-                                    {calculateDistance(loc.center_lat, loc.center_lng, s.lat, s.lng).toFixed(2)} km from proposed
-                                </div>
-                                {hasDilap && (
-                                    <div style={{ fontSize: '11px', color: '#dc2626', fontWeight: 'bold' }}>
-                                        &#9888; {s.dilapidated} dilapidated room{s.dilapidated > 1 ? "s" : ""}
+                            <CircleMarker
+                                center={[s.lat, s.lng]}
+                                radius={r}
+                                pathOptions={{
+                                    color: isSel ? '#1e293b' : 'white',
+                                    weight: isSel ? 2 : 1,
+                                    fillColor: color,
+                                    fillOpacity: 0.9,
+                                }}
+                                eventHandlers={{
+                                    click: () => onSelectSchool(s),
+                                }}
+                            >
+                                <Tooltip direction="top" offset={[0, -r]} opacity={1}>
+                                    <div style={{ fontSize: '13px', fontWeight: 'bold' }}>{s.name}</div>
+                                    <div style={{ fontSize: '11px', color: '#64748b' }}>
+                                        {catLabel(s.category)} &bull; {s.enr} students
                                     </div>
-                                )}
-                            </Tooltip>
-                        </CircleMarker>
+                                    <div style={{ fontSize: '11px', color: '#0ea5e9', fontWeight: '600' }}>
+                                        {calculateDistance(loc.center_lat, loc.center_lng, s.lat, s.lng).toFixed(2)} km from proposed
+                                    </div>
+                                    <div style={{ fontSize: '11px', color: '#1e293b', marginTop: '2px' }}>
+                                        Building: {s.building_status}
+                                    </div>
+                                    {hasDilap && (
+                                        <div style={{ fontSize: '11px', color: '#dc2626', fontWeight: 'bold' }}>
+                                            &#9888; {s.dilapidated} dilapidated room{s.dilapidated > 1 ? "s" : ""}
+                                        </div>
+                                    )}
+                                </Tooltip>
+                            </CircleMarker>
+                        </div>
                     );
                 })}
 
