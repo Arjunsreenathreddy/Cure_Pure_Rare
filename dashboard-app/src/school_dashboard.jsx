@@ -12,7 +12,7 @@ const catColor = (c) => c?.includes("01_PS") ? "#16a34a" : c?.includes("02_UPS")
 const statusRingColor = (s) => { if (!s) return null; const l = s.toLowerCase(); if (l === "rented") return "#a0522d"; if (l === "govtrentfree") return "#0891b2"; if (l.includes("other")) return "#ea580c"; return null; };
 
 const proposedIcon = L.divIcon({
-    html: `<svg width="36" height="28" viewBox="0 0 18 14" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3))"><rect x="1" y="3" width="16" height="9" rx="1" fill="#dc2626" /><polygon points="9,0 0,4 18,4" fill="#b91c1c" /></svg>`,
+    html: `<svg width="36" height="28" viewBox="0 0 18 14" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3))"><rect x="1" y="3" width="16" height="9" rx="1" fill="#2563eb" /><polygon points="9,0 0,4 18,4" fill="#1d4ed8" /></svg>`,
     className: "proposed-school-icon",
     iconSize: [36, 28],
     iconAnchor: [18, 14],
@@ -350,8 +350,8 @@ export default function Dashboard() {
 
                         {/* New school - always visible */}
                         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, paddingBottom: 6, borderBottom: "1px solid #f1f5f9" }}>
-                            <svg width="18" height="14" viewBox="0 0 18 14"><rect x="1" y="3" width="16" height="9" rx="1" fill="#dc2626" /><polygon points="9,0 0,4 18,4" fill="#b91c1c" /></svg>
-                            <span style={{ color: "#dc2626", fontWeight: 700, fontSize: 10 }}>Proposed School</span>
+                            <svg width="18" height="14" viewBox="0 0 18 14"><rect x="1" y="3" width="16" height="9" rx="1" fill="#2563eb" /><polygon points="9,0 0,4 18,4" fill="#1d4ed8" /></svg>
+                            <span style={{ color: "#2563eb", fontWeight: 700, fontSize: 10 }}>Proposed Integrated School (Pre-Primary to XII)</span>
                         </div>
 
                         {/* Toggleable categories */}
@@ -373,11 +373,10 @@ export default function Dashboard() {
                         <div style={{ borderTop: "1px solid #f1f5f9", paddingTop: 8, marginTop: 6 }}>
                             <div style={{ fontSize: 8, fontWeight: 700, color: "#94a3b8", letterSpacing: "0.1em", marginBottom: 5 }}>MAP LABELS</div>
                             {[
-                                { color: "#ef4444", label: "Dilapidated Ring" },
-                                { color: "#a0522d", label: "Rented Ring" },
-                                { color: "#0891b2", label: "Govt Rent Free Ring" },
-                                { color: "#ea580c", label: "Other Dept Ring" },
-                                { color: "#cbd5e1", label: "Connecting Lines" }
+                                { color: "#ef4444", label: "Dilapidated" },
+                                { color: "#a0522d", label: "Rented" },
+                                { color: "#0891b2", label: "Govt Rent Free" },
+                                { color: "#ea580c", label: "Other Dept" }
                             ].map((x, i) => (
                                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
                                     <div style={{ width: 12, height: 2, background: x.color, borderRadius: 1, opacity: 0.8 }} />
