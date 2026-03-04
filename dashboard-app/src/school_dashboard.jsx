@@ -376,7 +376,13 @@ export default function Dashboard() {
 
                         <div style={{ borderTop: "1px solid #f1f5f9", paddingTop: 8, marginTop: 6 }}>
                             <div style={{ fontSize: 8, fontWeight: 700, color: "#94a3b8", letterSpacing: "0.1em", marginBottom: 5 }}>MAP LABELS</div>
-                            {[{ color: "#ef4444", label: "Dilapidated Ring" }, { color: "#cbd5e1", label: "Connecting Lines" }].map((x, i) => (
+                            {[
+                                { color: "#ef4444", label: "Dilapidated Ring" },
+                                { color: "#a0522d", label: "Rented Ring" },
+                                { color: "#0891b2", label: "Govt Rent Free Ring" },
+                                { color: "#ea580c", label: "Other Dept Ring" },
+                                { color: "#cbd5e1", label: "Connecting Lines" }
+                            ].map((x, i) => (
                                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
                                     <div style={{ width: 12, height: 2, background: x.color, borderRadius: 1, opacity: 0.8 }} />
                                     <span style={{ color: x.color === '#cbd5e1' ? '#64748b' : x.color, fontWeight: 600, fontSize: 10 }}>{x.label}</span>
