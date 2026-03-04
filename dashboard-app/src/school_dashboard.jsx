@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
-import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, useMap, Marker } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { calculateDistance } from "./utils/geo";
 import { DATA, MAPPING } from "./data";
@@ -9,6 +10,13 @@ const locKeys = Object.keys(DATA).sort();
 const catLabel = (c) => c?.includes("01_PS") ? "Primary" : c?.includes("02_UPS") ? "Upper Primary" : c?.includes("03_HS") ? "High School" : "Other";
 const catColor = (c) => c?.includes("01_PS") ? "#16a34a" : c?.includes("02_UPS") ? "#2563eb" : c?.includes("03_HS") ? "#d97706" : "#6b7280";
 const statusRingColor = (s) => { if (!s) return null; const l = s.toLowerCase(); if (l === "rented") return "#a0522d"; if (l === "govtrentfree") return "#0891b2"; if (l.includes("other")) return "#ea580c"; return null; };
+
+const proposedIcon = L.divIcon({
+    html: `<svg width="36" height="28" viewBox="0 0 18 14" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3))"><rect x="1" y="3" width="16" height="9" rx="1" fill="#dc2626" /><polygon points="9,0 0,4 18,4" fill="#b91c1c" /></svg>`,
+    className: "proposed-school-icon",
+    iconSize: [36, 28],
+    iconAnchor: [18, 14],
+});
 
 // Helper to center the map when location changes
 function MapController({ center, zoom }) {
@@ -218,22 +226,10 @@ function MapView({ loc, locId, onSelectSchool, selectedSchool, visibleCats }) {
                 })}
 
                 {/* Plot the proposed new school */}
-                <CircleMarker
-                    center={[loc.center_lat, loc.center_lng]}
-                    radius={14}
-                    pathOptions={{
-                        color: 'white',
-                        weight: 2,
-                        fillColor: '#ef4444',
-                        fillOpacity: 1,
-                    }}
-                >
-                    <Tooltip permanent direction="bottom" offset={[0, 15]} className="custom-tooltip">
-                        <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#dc2626' }}>
-                            Proposed School
-                        </div>
-                    </Tooltip>
-                </CircleMarker>
+                <Marker
+                    position={[loc.center_lat, loc.center_lng]}
+                    icon={proposedIcon}
+                />
             </MapContainer>
         </div>
     );
